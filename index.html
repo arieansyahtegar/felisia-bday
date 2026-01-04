@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Happy Birthday Felisia</title>
+    <title>Happy 21st Birthday Felisia</title>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
     <style>
         /* --- CSS STYLES --- */
@@ -14,14 +14,19 @@
             --text-color: #590d22;
         }
 
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             padding: 0;
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
+            /* Perfect centering for mobile */
             height: 100vh;
-            /* Dynamic Viewport Height for mobile browsers */
             height: 100dvh; 
+            width: 100vw;
             overflow: hidden;
             display: flex;
             justify-content: center;
@@ -29,21 +34,21 @@
             color: var(--text-color);
         }
 
-        /* Music Overlay (Forces interaction) */
+        /* --- START SCREEN / MUSIC OVERLAY --- */
         #music-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 240, 243, 0.98); /* High opacity to hide loading */
             z-index: 1000;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            transition: opacity 0.8s ease;
+            transition: opacity 0.8s ease, visibility 0.8s;
         }
 
         #music-overlay h1 {
@@ -52,35 +57,28 @@
             animation: pulse 2s infinite;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        /* Container for the card */
+        /* --- CARD CONTAINER --- */
         .card-container {
             width: 90%;
-            max-width: 450px;
+            max-width: 420px; /* Slightly tighter for better mobile look */
             height: 85vh;
             height: 85dvh;
-            background: rgba(255, 255, 255, 0.90);
+            background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(10px);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(255, 77, 109, 0.2);
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.25);
             position: relative;
             overflow: hidden;
             text-align: center;
-            padding: 20px;
-            box-sizing: border-box;
-            display: flex;
+            display: flex; /* Flex to center slide content */
             flex-direction: column;
             justify-content: center;
-            opacity: 0; /* Hidden initially until music starts */
+            align-items: center;
+            opacity: 0; /* Hidden until music starts */
             transition: opacity 1s ease;
         }
 
-        /* Slides */
+        /* --- SLIDES --- */
         .slide {
             position: absolute;
             top: 0;
@@ -88,29 +86,28 @@
             width: 100%;
             height: 100%;
             opacity: 0;
-            transition: opacity 0.8s ease-in-out;
-            pointer-events: none;
+            visibility: hidden; /* Hides it from clicks when not active */
+            transition: opacity 0.6s ease-in-out, visibility 0.6s;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px;
-            box-sizing: border-box;
+            padding: 25px;
             z-index: 1;
         }
 
         .slide.active {
             opacity: 1;
-            pointer-events: all;
+            visibility: visible;
             z-index: 5;
         }
 
-        /* Scrollable content */
+        /* --- SCROLL CONTENT (For long text) --- */
         .scroll-content {
             max-height: 60%;
             overflow-y: auto;
             width: 100%;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             padding: 0 5px;
             /* Hide scrollbar */
             scrollbar-width: none; 
@@ -118,14 +115,15 @@
         }
         .scroll-content::-webkit-scrollbar { display: none; }
 
-        /* Typography */
+        /* --- TYPOGRAPHY --- */
         h1 {
             font-family: 'Great Vibes', cursive;
             font-size: 2.8rem;
             color: var(--primary-color);
-            margin: 0 0 15px 0;
+            margin: 0 0 10px 0;
             line-height: 1.2;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+            flex-shrink: 0; /* Prevents title from squishing */
         }
 
         p {
@@ -134,26 +132,31 @@
             margin-bottom: 15px;
         }
 
-        /* Buttons */
+        /* --- BUTTONS --- */
         .btn {
-            padding: 14px 40px;
+            padding: 12px 35px;
             background: var(--primary-color);
             color: white;
             border: none;
             border-radius: 50px;
             font-size: 1rem;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
-            transition: transform 0.2s;
-            margin-top: auto;
-            margin-bottom: 10px;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
+            transition: transform 0.2s, background 0.2s;
+            margin-top: auto; /* Pushes button to bottom */
+            margin-bottom: 15px;
             font-weight: 500;
             -webkit-tap-highlight-color: transparent;
         }
+        .btn:active { transform: scale(0.95); background: #e01e37; }
 
-        .btn:active { transform: scale(0.95); }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
 
-        /* --- GALLERY STYLE --- */
+        /* --- GALLERY --- */
         .gallery {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -162,26 +165,24 @@
             max-height: 55%;
             overflow-y: auto;
             padding: 5px;
-            box-sizing: border-box;
         }
 
         .photo-frame {
             background: white;
             padding: 5px;
             border-radius: 10px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
         }
 
         .photo-frame img {
             width: 100%;
             height: 120px;
-            object-fit: cover; /* Keeps image proportional */
+            object-fit: cover;
             border-radius: 6px;
             display: block;
         }
-        /* --------------------- */
 
-        /* Music Toggle */
+        /* --- MUSIC ICON --- */
         .music-control {
             position: absolute;
             bottom: 20px;
@@ -195,12 +196,12 @@
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             font-size: 1.2rem;
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Floating Hearts */
+        /* --- HEARTS --- */
         .hearts-bg {
             position: absolute;
             top: 0;
@@ -211,7 +212,6 @@
             z-index: 0;
             pointer-events: none;
         }
-
         .heart {
             position: absolute;
             bottom: -100px;
@@ -224,43 +224,31 @@
             animation: float 15s linear infinite;
             opacity: 0.6;
         }
-
         .heart::before, .heart::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: inherit;
-            border-radius: 50%;
+            content: ""; position: absolute; top: 0; width: 100%; height: 100%;
+            background-color: inherit; border-radius: 50%;
         }
         .heart::before { left: -50%; }
         .heart::after { left: 0; top: -50%; }
-
         @keyframes float {
             0% { transform: translateY(0) rotate(0deg); opacity: 1; }
             100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
         }
-
     </style>
 </head>
 <body>
 
     <div class="hearts-bg" id="hearts-container"></div>
-
-    <audio id="bgMusic" loop preload="auto">
-        <source src="song.mp3" type="audio/mp3">
-    </audio>
+    <audio id="bgMusic" loop preload="auto"><source src="song.mp3" type="audio/mp3"></audio>
 
     <div id="music-overlay">
-        <h1>For Felisia ❤️</h1>
+        <h1>For Cia ❤️</h1>
         <p>I have a surprise for you.</p>
         <button class="btn" onclick="startExperience()">Tap to Open ✨</button>
-        <p style="font-size: 0.8rem; margin-top: 15px; color: #888;">(Tap to turn on the music)</p>
+        <p style="font-size: 0.8rem; margin-top: 15px; color: #888;">(Volume Up 🔊)</p>
     </div>
 
     <div class="card-container" id="main-card">
-        
         <div class="music-control" onclick="toggleMusic()">🎵</div>
 
         <div class="slide active" id="slide1">
@@ -282,13 +270,23 @@
         <div class="slide" id="slide3">
             <h1>My Words to You</h1>
             <div class="scroll-content">
-                <p>To my dearest Felisia,<br><br>Watching you grow and smile is my favorite hobby. Your kindness, your laugh, and the way you look at the world make me fall for you over and over again.</p>
+                <p>To my dearest Cia,<br><br>Watching you grow and smile is my favorite hobby. Your kindness, your laugh, and the way you look at the world make me fall for you over and over again.</p>
                 <p>May this year bring you as much joy as you bring into my life.</p>
             </div>
-            <button class="btn" onclick="nextSlide(4)">See Memories 📸</button>
+            <button class="btn" onclick="nextSlide(4)">A Special Wish 🎂</button>
         </div>
 
         <div class="slide" id="slide4">
+            <h1>Happy 21st! 🥂</h1>
+            <div class="scroll-content">
+                <p>Welcome to your 21st chapter, my love.</p>
+                <p>This is the age of dreams, freedom, and becoming the amazing woman you are meant to be.</p>
+                <p>I hope this year brings you closer to your goals and fills your heart with as much happiness as you give me. You deserve the world.</p>
+            </div>
+            <button class="btn" onclick="nextSlide(5)">See Memories 📸</button>
+        </div>
+
+        <div class="slide" id="slide5">
             <h1>Our Memories</h1>
             <div class="gallery">
                 <div class="photo-frame"><img src="photo1.jpg" alt="Felisia 1"></div>
@@ -296,25 +294,26 @@
                 <div class="photo-frame"><img src="photo3.jpg" alt="Felisia 3"></div>
                 <div class="photo-frame"><img src="photo4.jpg" alt="Felisia 4"></div>
             </div>
-            <button class="btn" onclick="nextSlide(5)">Please Read This... 💌</button>
-        </div>
-
-        <div class="slide" id="slide5">
-            <h1>I Am So Sorry</h1>
-            <div class="scroll-content" style="font-size: 1rem;">
-                <p>Before I say anything else, I need to apologize. I know I messed up today.</p>
-                <p>I went with my friends while you were waiting for me, and I know that hurt you. Seeing you cry broke my heart, and I hate that I was the reason for your tears.</p>
-                <p>You are my priority, and I failed to show you that today. I am truly sorry, Felisia. Please forgive me?</p>
-            </div>
-            <button class="btn" onclick="nextSlide(6)">One Last Thing ✨</button>
+            <button class="btn" onclick="nextSlide(6)">Please Read This... 💌</button>
         </div>
 
         <div class="slide" id="slide6">
+            <h1>I Am So Sorry</h1>
+            <div class="scroll-content" style="font-size: 1rem;">
+                <p>Before I say anything else, I need to apologize. I know I messed up yesterday, i meesed up everything.</p>
+                <p>I went with my friends while you were waiting for me, and I know that hurt you. Seeing you cry broke my heart, and I hate that I was the reason for your tears.</p>
+                <p>You are my priority, and I failed to show you that today. I am truly sorry, Felisia. Please forgive me?</p>
+            </div>
+            <button class="btn" onclick="nextSlide(7)">One Last Thing ✨</button>
+        </div>
+
+        <div class="slide" id="slide7">
             <h1>I Love You</h1>
             <div class="scroll-content">
-                <p>Happy Birthday, Felisia Risqina Salsabil.</p>
+                <p>Happy 21st Birthday My Kisah, Felisia Risqina Salsabil AKA Cia.</p>
                 <p>Forever and Always.</p>
                 <div style="font-size: 3rem; margin-top: 10px;">🎂🎁💖</div>
+                <p>Ari</p>
             </div>
             <button class="btn" onclick="nextSlide(1)">Replay ↺</button>
         </div>
@@ -323,50 +322,34 @@
 
     <script>
         // --- LOGIC ---
-
         function startExperience() {
-            // 1. Play Music
+            // Play Music
             const music = document.getElementById("bgMusic");
-            music.play().then(() => {
-                console.log("Music started successfully");
-            }).catch(e => {
-                console.log("Music failed to start automatically: " + e);
-            });
+            music.play().catch(e => console.log("Music play blocked: " + e));
 
-            // 2. Hide Overlay
+            // Hide Overlay with smooth fade
             const overlay = document.getElementById("music-overlay");
             overlay.style.opacity = '0';
-            setTimeout(() => {
-                overlay.style.display = 'none';
-            }, 800);
+            overlay.style.visibility = 'hidden';
 
-            // 3. Show Card
-            const card = document.getElementById("main-card");
-            card.style.opacity = '1';
+            // Show Card
+            document.getElementById("main-card").style.opacity = '1';
         }
 
         function toggleMusic() {
             const music = document.getElementById("bgMusic");
-            if (music.paused) {
-                music.play();
-            } else {
-                music.pause();
-            }
+            music.paused ? music.play() : music.pause();
         }
 
         function nextSlide(slideNumber) {
             const slides = document.querySelectorAll('.slide');
-            slides.forEach(slide => {
-                slide.classList.remove('active');
-            });
+            slides.forEach(s => s.classList.remove('active'));
 
             const target = document.getElementById('slide' + slideNumber);
-            if(target) {
-                target.classList.add('active');
-            }
+            if(target) target.classList.add('active');
         }
 
-        // --- BACKGROUND HEARTS ---
+        // --- HEARTS ---
         function createHearts() {
             const container = document.getElementById('hearts-container');
             for (let i = 0; i < 15; i++) {
@@ -380,7 +363,6 @@
             }
         }
         createHearts();
-
     </script>
 </body>
 </html>
