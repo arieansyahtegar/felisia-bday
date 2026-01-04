@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Happy 21st Birthday Cia!</title>
+    <title>Happy 21st Birthday Cia</title>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
     <style>
         /* --- CSS STYLES --- */
@@ -23,7 +23,6 @@
             padding: 0;
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
-            /* Perfect centering for mobile using dvh */
             height: 100vh;
             height: 100dvh; 
             width: 100vw;
@@ -34,27 +33,28 @@
             color: var(--text-color);
         }
 
-        /* --- START SCREEN / MUSIC OVERLAY --- */
+        /* --- START SCREEN / MUSIC OVERLAY (FIXED CENTER) --- */
         #music-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            height: 100dvh; /* Forces it to fit the visible screen exactly */
             background: rgba(255, 240, 243, 0.98);
             z-index: 1000;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            justify-content: center; /* This aligns it vertically */
+            align-items: center;     /* This aligns it horizontally */
             text-align: center;
             transition: opacity 0.8s ease, visibility 0.8s;
         }
 
         #music-overlay h1 {
             font-family: 'Great Vibes', cursive;
-            font-size: 3rem;
+            font-size: 3.5rem; /* Made slightly bigger */
             color: var(--primary-color);
+            margin-top: 0;     /* Removes extra space above title */
             margin-bottom: 20px;
             animation: pulse 2s infinite;
         }
@@ -246,7 +246,7 @@
         <h1>For Cia ❤️</h1>
         <p>I have a surprise for you.</p>
         <button class="btn" onclick="startExperience()">Tap to Open ✨</button>
-        <p style="font-size: 0.8rem; margin-top: 15px; color: #888;">(Volume Up 🔊)</p>
+        <p style="font-size: 0.8rem; margin-top: 15px; color: #888;">(Volume Up & dont Forget to scoll! 🔊)</p>
     </div>
 
     <div class="card-container" id="main-card">
@@ -303,7 +303,7 @@
             <div class="scroll-content" style="font-size: 1rem;">
                 <p>Before I say anything else, I need to apologize. I know I messed up yesterday, I messed up everything.</p>
                 <p>I went with my friends while you were waiting for me, and I know that hurt you. Seeing you cry broke my heart, and I hate that I was the reason for your tears.</p>
-                <p>You are my priority, and I failed to show you that today. I am truly sorry, woulf you forgive me?</p>
+                <p>You are my priority, and I failed to show you that today. I am truly sorry, Would you forgive me?</p>
             </div>
             <button class="btn" onclick="nextSlide(7)">One Last Thing ✨</button>
         </div>
@@ -367,4 +367,3 @@
     </script>
 </body>
 </html>
-
