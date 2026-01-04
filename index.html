@@ -19,8 +19,8 @@
             padding: 0;
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
-            /* Use dvh for mobile browsers to handle address bars correctly */
             height: 100vh;
+            /* Dynamic Viewport Height for mobile browsers */
             height: 100dvh; 
             overflow: hidden;
             display: flex;
@@ -29,14 +29,42 @@
             color: var(--text-color);
         }
 
+        /* Music Overlay (Forces interaction) */
+        #music-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: opacity 0.8s ease;
+        }
+
+        #music-overlay h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
         /* Container for the card */
         .card-container {
             width: 90%;
             max-width: 450px;
-            /* Adaptive height for mobile */
             height: 85vh;
             height: 85dvh;
-            background: rgba(255, 255, 255, 0.90); /* Slightly more opaque for readability */
+            background: rgba(255, 255, 255, 0.90);
             backdrop-filter: blur(10px);
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(255, 77, 109, 0.2);
@@ -48,6 +76,8 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            opacity: 0; /* Hidden initially until music starts */
+            transition: opacity 1s ease;
         }
 
         /* Slides */
@@ -64,7 +94,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 25px;
+            padding: 20px;
             box-sizing: border-box;
             z-index: 1;
         }
@@ -75,19 +105,18 @@
             z-index: 5;
         }
 
-        /* Scrollable content area for long text on small phones */
+        /* Scrollable content */
         .scroll-content {
             max-height: 60%;
             overflow-y: auto;
             width: 100%;
             margin-bottom: 15px;
-            /* Hide scrollbar but allow scrolling */
+            padding: 0 5px;
+            /* Hide scrollbar */
             scrollbar-width: none; 
             -ms-overflow-style: none;
         }
-        .scroll-content::-webkit-scrollbar { 
-            display: none; 
-        }
+        .scroll-content::-webkit-scrollbar { display: none; }
 
         /* Typography */
         h1 {
@@ -105,15 +134,9 @@
             margin-bottom: 15px;
         }
 
-        /* Mobile adjustments for text */
-        @media (max-width: 380px) {
-            h1 { font-size: 2.2rem; }
-            p { font-size: 0.95rem; }
-        }
-
         /* Buttons */
         .btn {
-            padding: 14px 35px; /* Larger touch target */
+            padding: 14px 40px;
             background: var(--primary-color);
             color: white;
             border: none;
@@ -121,24 +144,22 @@
             font-size: 1rem;
             cursor: pointer;
             box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
-            transition: transform 0.2s, background 0.2s;
-            margin-top: auto; /* Pushes button to bottom if space permits */
+            transition: transform 0.2s;
+            margin-top: auto;
             margin-bottom: 10px;
             font-weight: 500;
             -webkit-tap-highlight-color: transparent;
         }
 
-        .btn:active {
-            transform: scale(0.95);
-        }
+        .btn:active { transform: scale(0.95); }
 
         /* --- GALLERY STYLE --- */
         .gallery {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
+            gap: 10px;
             width: 100%;
-            max-height: 55%; /* Limit height so button stays visible */
+            max-height: 55%;
             overflow-y: auto;
             padding: 5px;
             box-sizing: border-box;
@@ -153,14 +174,14 @@
 
         .photo-frame img {
             width: 100%;
-            height: 110px; /* Fixed height for consistency */
-            object-fit: cover;
+            height: 120px;
+            object-fit: cover; /* Keeps image proportional */
             border-radius: 6px;
             display: block;
         }
         /* --------------------- */
 
-        /* Music Player Controls */
+        /* Music Toggle */
         .music-control {
             position: absolute;
             bottom: 20px;
@@ -179,7 +200,7 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Floating Hearts Animation Background */
+        /* Floating Hearts */
         .hearts-bg {
             position: absolute;
             top: 0;
@@ -213,7 +234,6 @@
             background-color: inherit;
             border-radius: 50%;
         }
-
         .heart::before { left: -50%; }
         .heart::after { left: 0; top: -50%; }
 
@@ -232,7 +252,14 @@
         <source src="song.mp3" type="audio/mp3">
     </audio>
 
-    <div class="card-container">
+    <div id="music-overlay">
+        <h1>For Felisia ❤️</h1>
+        <p>I have a surprise for you.</p>
+        <button class="btn" onclick="startExperience()">Tap to Open ✨</button>
+        <p style="font-size: 0.8rem; margin-top: 15px; color: #888;">(Tap to turn on the music)</p>
+    </div>
+
+    <div class="card-container" id="main-card">
         
         <div class="music-control" onclick="toggleMusic()">🎵</div>
 
@@ -246,16 +273,8 @@
         <div class="slide" id="slide2">
             <h1>My Wish For You</h1>
             <div class="scroll-content" style="font-style: italic; font-size: 1.1rem;">
-                <p>
-                    "I don't need the whole world to love me,<br>
-                    I just need you."
-                </p>
-                <p>
-                    "In your laugh, I find my happiness.<br>
-                    In your presence, I find my home.<br>
-                    To Felisia, the girl who holds my heart,<br>
-                    You are the best thing that ever happened to me."
-                </p>
+                <p>"I don't need the whole world to love me,<br>I just need you."</p>
+                <p>"In your laugh, I find my happiness.<br>In your presence, I find my home.<br>To Felisia, the girl who holds my heart,<br>You are the best thing that ever happened to me."</p>
             </div>
             <button class="btn" onclick="nextSlide(3)">Next 🌸</button>
         </div>
@@ -263,13 +282,8 @@
         <div class="slide" id="slide3">
             <h1>My Words to You</h1>
             <div class="scroll-content">
-                <p>
-                    To my dearest Felisia,<br><br>
-                    Watching you grow and smile is my favorite hobby. Your kindness, your laugh, and the way you look at the world make me fall for you over and over again.
-                </p>
-                <p>
-                    May this year bring you as much joy as you bring into my life.
-                </p>
+                <p>To my dearest Felisia,<br><br>Watching you grow and smile is my favorite hobby. Your kindness, your laugh, and the way you look at the world make me fall for you over and over again.</p>
+                <p>May this year bring you as much joy as you bring into my life.</p>
             </div>
             <button class="btn" onclick="nextSlide(4)">See Memories 📸</button>
         </div>
@@ -288,15 +302,9 @@
         <div class="slide" id="slide5">
             <h1>I Am So Sorry</h1>
             <div class="scroll-content" style="font-size: 1rem;">
-                <p>
-                    Before I say anything else, I need to apologize. I know I messed up today.
-                </p>
-                <p>
-                    I went with my friends while you were waiting for me, and I know that hurt you. Seeing you cry broke my heart, and I hate that I was the reason for your tears.
-                </p>
-                <p>
-                    You are my priority, and I failed to show you that today. I am truly sorry, Felisia. Please forgive me?
-                </p>
+                <p>Before I say anything else, I need to apologize. I know I messed up today.</p>
+                <p>I went with my friends while you were waiting for me, and I know that hurt you. Seeing you cry broke my heart, and I hate that I was the reason for your tears.</p>
+                <p>You are my priority, and I failed to show you that today. I am truly sorry, Felisia. Please forgive me?</p>
             </div>
             <button class="btn" onclick="nextSlide(6)">One Last Thing ✨</button>
         </div>
@@ -316,6 +324,27 @@
     <script>
         // --- LOGIC ---
 
+        function startExperience() {
+            // 1. Play Music
+            const music = document.getElementById("bgMusic");
+            music.play().then(() => {
+                console.log("Music started successfully");
+            }).catch(e => {
+                console.log("Music failed to start automatically: " + e);
+            });
+
+            // 2. Hide Overlay
+            const overlay = document.getElementById("music-overlay");
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 800);
+
+            // 3. Show Card
+            const card = document.getElementById("main-card");
+            card.style.opacity = '1';
+        }
+
         function toggleMusic() {
             const music = document.getElementById("bgMusic");
             if (music.paused) {
@@ -326,47 +355,30 @@
         }
 
         function nextSlide(slideNumber) {
-            // Hide all slides
             const slides = document.querySelectorAll('.slide');
             slides.forEach(slide => {
                 slide.classList.remove('active');
             });
 
-            // Show target slide
             const target = document.getElementById('slide' + slideNumber);
             if(target) {
                 target.classList.add('active');
             }
-
-            // ATTEMPT TO PLAY MUSIC ON FIRST CLICK
-            // Mobile browsers require a direct user interaction (tap) to play audio
-            const music = document.getElementById("bgMusic");
-            if (slideNumber === 2 && music.paused) {
-                music.play().then(() => {
-                    console.log("Audio playing");
-                }).catch(e => {
-                    console.log("Audio play blocked. User needs to interact.");
-                });
-            }
         }
 
-        // --- BACKGROUND HEARTS LOGIC ---
+        // --- BACKGROUND HEARTS ---
         function createHearts() {
             const container = document.getElementById('hearts-container');
-            const heartCount = 15;
-            
-            for (let i = 0; i < heartCount; i++) {
+            for (let i = 0; i < 15; i++) {
                 const heart = document.createElement('div');
                 heart.classList.add('heart');
                 heart.style.left = Math.random() * 100 + 'vw';
                 heart.style.animationDuration = Math.random() * 5 + 10 + 's';
                 heart.style.opacity = Math.random() * 0.5 + 0.3;
-                const scale = Math.random() * 0.5 + 0.5;
-                heart.style.transform = `scale(${scale})`;
+                heart.style.transform = `scale(${Math.random() * 0.5 + 0.5})`;
                 container.appendChild(heart);
             }
         }
-
         createHearts();
 
     </script>
